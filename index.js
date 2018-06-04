@@ -1,5 +1,6 @@
    // var xmlhttp = new XMLHttpRequest();
 const COINDESK_ENDPOINT = "https://api.coindesk.com/v1/bpi/currentprice.json";
+const COINDESK_ENDPOINT_HISTORICAL = "https://api.coindesk.com/v1/bpi/historical/close.json";
 
 function getDataFromApi(callback){
   const settings = {
@@ -40,7 +41,34 @@ function watchSubmit(){
 $(watchSubmit);
 
 
+function getHistoricalDataFromApi(callback){
+  const settingsHistorical = {
+    url: COINDESK_ENDPOINT_HISTORICAL,
+    data: {
+      start: '2018-05-30',
+      end: '2018-06-03'
+    },
+    dataType: 'json',
+    type: 'GET',
+    success: callback
+  };
+  $.ajax(settingsHistorical);
+}
 
+function renderResultHistorical(result) {
+      for (let key in result.bpi) {
+    if (result.bpi.hasOwnProperty(key)) {
+      $(".result-historical").append(`<li>${key} at ${result.bpi[key]}<li>`);
+    }
+  }
+   
+}
+
+function watchSubmitHistorical(){
+  getHistoricalDataFromApi(renderResultHistorical);
+}
+
+$(watchSubmitHistorical);
 
 
 
