@@ -15,20 +15,20 @@ function getDataFromApi(callback){
 function renderResult(result) {
   const results = `
   <div class="row">
-    <div class="col-4">
+    <div class="col-4 clickable">
       <h3>${result.bpi.USD.code}</h3>
       <p>${result.bpi.USD.symbol}<span>${result.bpi.USD.rate}</span</p>
 
     </div>
-    <div class="col-4">
+    <div class="col-4 clickable">
       <h3>${result.bpi.GBP.code}</h3>
       <p>${result.bpi.GBP.symbol}<span>${result.bpi.GBP.rate}</span</p>
     </div>
-    <div class="col-4">
+    <div class="col-4 clickable">
       <h3>${result.bpi.EUR.code}</h3>
       <p>${result.bpi.EUR.symbol}<span>${result.bpi.EUR.rate}</span</p>
 </div>`
-     $('.result').html(results);
+     $('.js-result').html(results);
 }
 
 
