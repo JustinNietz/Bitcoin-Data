@@ -42,10 +42,25 @@ $(watchSubmit);
 
 
 function getHistoricalDataFromApi(callback){
+  let today= new Date;
+  let dd = today.getDate();
+  let mm = today.getMonth()+1; //January is 0
+  let yyyy = today.getFullYear();
+
+if(dd<10) {
+    dd = '0'+dd
+} 
+
+if(mm<10) {
+    mm = '0'+mm
+} 
+
+today = String(yyyy + '-' + mm + '-' + dd);
+
   const settingsHistorical = {
     url: COINDESK_ENDPOINT_HISTORICAL,
     data: {
-      start: '2018-05-30',
+      start: today,
       end: '2018-06-03'
     },
     dataType: 'json',
