@@ -48,6 +48,7 @@ function watchSubmit(){
   getDataFromApi(renderResult);
 }
 
+$(watchSubmit)
 //callback function in intervals updates prices every minute
 window.setInterval("$(watchSubmit)", 60000);
 //for historical data which will be translated into a chart
@@ -59,7 +60,7 @@ const seven = sevenDays.format('YYYY-MM-DD');
   const settingsHistoricalUSD = {
     url: COINDESK_ENDPOINT_HISTORICAL,
     data: {
-      currency: EUR, // not defined
+      currency: 'EUR', // not defined
       start: seven,
       end: currentDate
     },
