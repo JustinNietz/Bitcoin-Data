@@ -26,22 +26,30 @@ promise.then(
 function renderResult(result) {
   const results = `
   <div class="row">
-    <div class="col-4 clickable">
+    <div class="col-4 clickable hello">
       <h3>${result.bpi.USD.code}</h3>
       <p>${result.bpi.USD.symbol}<span>${result.bpi.USD.rate}</span</p>
     </div>
-    <div class="col-4 clickable">
+    <div class="col-4 clickable hello2">
       <h3>${result.bpi.GBP.code}</h3>
       <p>${result.bpi.GBP.symbol}<span>${result.bpi.GBP.rate}</span</p>
     </div>
-    <div class="col-4 clickable">
+    <div class="col-4 clickable hello3">
       <h3>${result.bpi.EUR.code}</h3>
       <p>${result.bpi.EUR.symbol}<span>${result.bpi.EUR.rate}</span</p>
     </div>
 </div>`
-     $('.js-result').html(results);
+    $('.js-result').html(results);
+    $(".hello").click(function(){
+    $(".result-historical-USD").toggle();
+})
+            $(".hello2").click(function(){
+    $(".result-historical-GBP").toggle();
+  })
+        $(".hello3").click(function(){
+    $(".result-historical-EUR").toggle();
+  })
 }
-
 
 //the function that will call the API and lay it out in html
 function watchSubmit(){
@@ -52,15 +60,26 @@ $(watchSubmit)
 //callback function in intervals updates prices every minute
 window.setInterval("$(watchSubmit)", 60000);
 //for historical data which will be translated into a chart
+
+
 function getHistoricalDataFromApi(callback){
 const currentDate = moment().format('YYYY-MM-DD');
 const sevenDays = moment().subtract('days', 7);
 const seven = sevenDays.format('YYYY-MM-DD');
-
-  const settingsHistoricalUSD = {
+const price = "";
+/*
+if (//div clicked is USD){
+  price = "USD";
+} else if (//div clicked is EUR){
+  price = "EUR";
+} else if (//div clicked is GBP){
+  price = "GBP";
+}
+*/
+  const settingsHistorical = {
     url: COINDESK_ENDPOINT_HISTORICAL,
     data: {
-      currency: 'EUR', // not defined
+     // currency: price,
       start: seven,
       end: currentDate
     },
@@ -69,7 +88,7 @@ const seven = sevenDays.format('YYYY-MM-DD');
     success: callback
   };
 
-let promise = $.ajax(settingsHistoricalUSD);
+let promise = $.ajax(settingsHistorical);
 promise.then(
     function (responseBody) {
       renderResult(responseBody);
@@ -91,22 +110,17 @@ function renderResultHistorical(result) {
       for (let key in result.bpi) {
     if (result.bpi.hasOwnProperty(key)) {
       $(".result-historical-USD").append(`<li>${key} at ${result.bpi[key]}</li>`);
+      
     }
   }
    
 }
 
-function click (){
-  $("div").click(function(){
-    $(".result-historical-USD").toggle();
-});
-}
 function watchSubmitHistorical(){
   getHistoricalDataFromApi(renderResultHistorical);
 }
 
 $(watchSubmitHistorical);
-$(click);
 
 
 
