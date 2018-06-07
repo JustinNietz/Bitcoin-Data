@@ -86,7 +86,7 @@ promise.then(
 
 // remove div then redraw for 7/10 or whatever amount of days
 //use moment to format date -- DONE
-//use chart.js for date and money on x and y 
+//use chart.js for date and money on x and y  
 function renderResultHistorical(result) {
       for (let key in result.bpi) {
     if (result.bpi.hasOwnProperty(key)) {
@@ -96,12 +96,17 @@ function renderResultHistorical(result) {
    
 }
 
-
+function click (){
+  $("div").click(function(){
+    $(".result-historical-USD").toggle();
+});
+}
 function watchSubmitHistorical(){
   getHistoricalDataFromApi(renderResultHistorical);
 }
 
 $(watchSubmitHistorical);
+$(click);
 
 
 
