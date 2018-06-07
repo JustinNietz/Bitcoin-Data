@@ -29,7 +29,6 @@ function renderResult(result) {
     <div class="col-4 clickable">
       <h3>${result.bpi.USD.code}</h3>
       <p>${result.bpi.USD.symbol}<span>${result.bpi.USD.rate}</span</p>
-
     </div>
     <div class="col-4 clickable">
       <h3>${result.bpi.GBP.code}</h3>
@@ -49,9 +48,8 @@ function watchSubmit(){
   getDataFromApi(renderResult);
 }
 
-//callback function
-$(watchSubmit);
-
+//callback function in intervals updates prices every minute
+window.setInterval("$(watchSubmit)", 60000);
 //for historical data which will be translated into a chart
 function getHistoricalDataFromApi(callback){
 const currentDate = moment().format('YYYY-MM-DD');
@@ -61,6 +59,7 @@ const seven = sevenDays.format('YYYY-MM-DD');
   const settingsHistoricalUSD = {
     url: COINDESK_ENDPOINT_HISTORICAL,
     data: {
+      currency: EUR, // not defined
       start: seven,
       end: currentDate
     },
@@ -82,10 +81,10 @@ promise.then(
 //$.getJSON({URL}).then((response) => {//Do Something})
 
 
-//setTimeout in mili call function use promises .then()
+//setTimeout in mili call function use promises .then() -- DONE
 
 // remove div then redraw for 7/10 or whatever amount of days
-//use moment to format date
+//use moment to format date -- DONE
 //use chart.js for date and money on x and y 
 function renderResultHistorical(result) {
       for (let key in result.bpi) {
