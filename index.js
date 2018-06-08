@@ -40,15 +40,6 @@ function renderResult(result) {
     </div>
 </div>`
     $('.js-result').html(results);
-    $(".hello").click(function(){
-    $(".result-historical-USD").toggle();
-})
-            $(".hello2").click(function(){
-    $(".result-historical-GBP").toggle();
-  })
-        $(".hello3").click(function(){
-    $(".result-historical-EUR").toggle();
-  })
 }
 
 //the function that will call the API and lay it out in html
@@ -66,20 +57,12 @@ function getHistoricalDataFromApi(callback){
 const currentDate = moment().format('YYYY-MM-DD');
 const sevenDays = moment().subtract('days', 7);
 const seven = sevenDays.format('YYYY-MM-DD');
-const price = "";
-/*
-if (//div clicked is USD){
-  price = "USD";
-} else if (//div clicked is EUR){
-  price = "EUR";
-} else if (//div clicked is GBP){
-  price = "GBP";
-}
-*/
+
+
   const settingsHistorical = {
     url: COINDESK_ENDPOINT_HISTORICAL,
     data: {
-     // currency: price,
+     
       start: seven,
       end: currentDate
     },
@@ -88,16 +71,10 @@ if (//div clicked is USD){
     success: callback
   };
 
-let promise = $.ajax(settingsHistorical);
-promise.then(
-    function (responseBody) {
-      renderResult(responseBody);
-    },
-    function (error) {
-      console.error("Error with coindesk historical:", error);
-    }
-  );
-}
+
+ $.ajax(settingsHistorical);
+};
+
 //$.getJSON({URL}).then((response) => {//Do Something})
 
 
@@ -109,15 +86,21 @@ promise.then(
 function renderResultHistorical(result) {
       for (let key in result.bpi) {
     if (result.bpi.hasOwnProperty(key)) {
-      $(".result-historical-USD").append(`<li>${key} at ${result.bpi[key]}</li>`);
-      
+            $(".result-historical-USD").append(`<li>${key} at ${result.bpi[key]}</li>`);      
     }
   }
-   
+
+  }  
+
+function toggle(){
+         $('.hello').click(function(){
+        $('.result-historical-USD').toggle();
+      })
 }
 
 function watchSubmitHistorical(){
-  getHistoricalDataFromApi(renderResultHistorical);
+    getHistoricalDataFromApi(renderResultHistorical);
+
 }
 
 $(watchSubmitHistorical);
