@@ -11,24 +11,26 @@
 	<header role="banner">
 	 	<h1>Bitcoin Data</h1>
 		<p>Real world updates for Bitcoin prices based on your currency</p>
+		<p>Updates real-time every minute</p>
 		<div class="js-result"></div>
 	</header>
 
 <main role="main">
 	<div class="row">
-		<div class="col-4">
-			<ol class="result-historical-USD"></ol>
+		<div class="col-12">
+			<canvas id="myChart" class="myChartClass" width="400" height="250"></canvas>
+			<button class="buttonHide" type="submit">Hide</button>
+			<button class="buttonFive" type="submit">Past 5 Days</button>
+			<button class="buttonFifteen" type="submit">Past 15 Days</button>
+			<button class="buttonThirty" type="submit">Past 30 Days</button>
 		</div>
-		<div class="col-4">
-			<ol class="result-historical-GBP"></ol>
-		</div>
-		<div class="col-4">
-			<ol class="result-historical-EUR"></ol>
-		</div>
+	</div>
 </main>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js"></script>
 <script src="index.js"></script>
+
 </body>
 </html>

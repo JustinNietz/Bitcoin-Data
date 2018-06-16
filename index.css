@@ -6,6 +6,6 @@ header {
 	border: 2px solid black;
 }
 
-/*.result-historical-USD{
+.buttonHide,  .buttonFive, .buttonFifteen, .buttonThirty{
 	display: none;
-}*/
+} 
