@@ -1,36 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name = "viewport" content="width=device-width, initial-scale=1.0">
-	<title>Bitcoin-Data</title>
-	<link href="float.css" rel="stylesheet" type="text/css" />
-	<link href="index.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-	<header role="banner">
-	 	<h1>Bitcoin Data</h1>
-		<p>Real world updates for Bitcoin prices based on your currency</p>
-		<p>Updates real-time every minute</p>
-		<div class="js-result"></div>
-	</header>
 
-<main role="main">
-	<div class="row">
-		<div class="col-12">
-			<canvas id="myChart" class="myChartClass" width="400" height="250"></canvas>
-			<button class="buttonHide" type="submit">Hide</button>
-			<button class="buttonFive" type="submit">Past 5 Days</button>
-			<button class="buttonFifteen" type="submit">Past 15 Days</button>
-			<button class="buttonThirty" type="submit">Past 30 Days</button>
-		</div>
-	</div>
-</main>
+  <head>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js"></script>
-<script src="index.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Uses CoinDesk to retrieve value of Bitcoin">
+    <meta name="author" content="Justin Nietzer">
 
-</body>
+    <title>Bitcoin Tracker</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="css/index.css" rel="stylesheet">
+
+  </head>
+  <!-- Header -->
+  <header role="banner" class="masthead bg-primary text-white text-center">
+    <div class="container text-center">
+      <h1 class="text-uppercase mb-0">Bitcoin Tracker</h1>
+      <hr>
+      <h2 class="font-weight-light mb-0">Real world updates for Bitcoin prices </h2>
+      <img class="img-fluid" src="img/portfolio/Bitcoin.jpg" alt="Picture of the representation of a Bitcoin"/>
+    </div>
+              
+  </header>
+  <!-- Main -->
+  <main role="main">
+  	<!-- Chart and buttons -->
+    <section role="region" class="portfolio">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-secondary mb-0">Currencies</h2>
+        <p class="text-center">Click on a price for trends</p>
+        <hr class="mb-5">
+        <div class="js-result"></div>
+        <div class="row">
+          <div class="col-12 group">
+            <button class="buttonHide btn btn-primary" type="button">Hide</button>
+            <button class="buttonOne  btn btn-primary" type="button">2 Days</button>
+            <button class="buttonFive  btn btn-primary" type="button">5 Days</button>
+            <button class="buttonFifteen  btn btn-primary" type="button">15 Days</button>
+            <button class="buttonThirty  btn btn-primary" type="button">30 Days</button>
+            <canvas id="myChart" class="myChartClass" width="400" height="250"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- About Section -->
+    <section role="region" class="bg-primary text-white mb-0" id="about">
+      <div class="container">
+        <h2 class="text-center text-uppercase text-white">About</h2>
+        <hr>
+        <div class="row">
+          <div class="col-lg-4 ml-auto">
+            <p class="lead">Bitcoin Tracker takes the current price of Bitcoin for
+            the dollar, pound, and euro. It will also automatically update every minute.</p>
+          </div>
+          <div class="col-lg-4 mr-auto">
+            <p class="lead">If you want trends, click on the boxes to show a chart detailing the past trends of bitcoin.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+ </main>
+
+    <!-- Footer -->
+    <footer role="content info" class="footer text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="lead">Powered by <a href="https://www.coindesk.com/price/">CoinDesk</a>.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- Moment.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js"></script>
+    <!--Main Javascript -->
+    <script src="js/index.js"></script>
+  
+  </body>
+
 </html>
+
