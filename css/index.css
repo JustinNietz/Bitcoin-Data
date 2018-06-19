@@ -60,12 +60,6 @@ header.masthead h2 {
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
-  header.masthead h1 {
-
-  }
-  header.masthead h2 {
-   
-  }
 }
 
 .portfolio {
@@ -263,8 +257,6 @@ a:focus, a:hover, a:active {
   cursor: pointer;
 }
 
-
-
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
   background-color: #2C3E50;
   border-color: #2C3E50;
@@ -274,7 +266,7 @@ a:focus, a:hover, a:active {
       margin-top: .2rem;
 
   }
-  }
+}
 
 .active {
   background-color: #1a252f;

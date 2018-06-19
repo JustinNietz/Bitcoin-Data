@@ -31,25 +31,25 @@ const getPriceFromApi = (callback) => {
 * Returns: Data from the Api if there are no errors
 * * * * * */
 const getHistoricalDataFromApi = (callback, type, numOfDays) =>{
-const COINDESK_ENDPOINT_HISTORICAL = "https://api.coindesk.com/v1/bpi/historical/close.json";
-const currentDate = moment().format('YYYY-MM-DD');
-const days = moment().subtract('days', numOfDays);
-const dateFormat = days.format('YYYY-MM-DD');
-const setHistorical = function(){
-  return {
-       url: COINDESK_ENDPOINT_HISTORICAL,
-    data: {
-     currency: type,
-      start: dateFormat,
-      end: currentDate
-    },
-    dataType: 'json',
-    type: 'GET',
-    success: callback
-  }
-}
+  const COINDESK_ENDPOINT_HISTORICAL = "https://api.coindesk.com/v1/bpi/historical/close.json";
+  const currentDate = moment().format('YYYY-MM-DD');
+  const days = moment().subtract('days', numOfDays);
+  const dateFormat = days.format('YYYY-MM-DD');
+  const setHistorical = function(){
+    return {
+      url: COINDESK_ENDPOINT_HISTORICAL,
+      data: {
+        currency: type,
+        start: dateFormat,
+        end: currentDate
+      },
+      dataType: 'json',
+      type: 'GET',
+      success: callback
+    }
+  };
 
-   let promise = $.ajax(setHistorical(type, numOfDays));
+    let promise = $.ajax(setHistorical(type, numOfDays));
     promise.then(
       function(responseBody) {
         watchSubmitHistorical(responseBody);
@@ -66,67 +66,65 @@ const setHistorical = function(){
 * Returns: A detailed chart with Price on the y axis and dates on the x axis
 * * * * * */
 const chart = (result) =>{
-
-var ctx = document.getElementById("myChart").getContext('2d');
-const x = [];
-const y = [];
-for (let key in result.bpi) {
+  let ctx = document.getElementById("myChart").getContext('2d');
+  const x = [];
+  const y = [];
+  for (let key in result.bpi) {
     if (result.bpi.hasOwnProperty(key)) {
       x.push(key); 
       y.push(result.bpi[key]);
     }
-  }
-   var myChart = new Chart(ctx, {
+  };
+  let myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: x,
-        datasets: [{
-            label: 'Price of Bitcoins',
-            data: y,
-            borderColor: '#1a252f',
-        }]
-    },
-});
-
-}
+      labels: x,
+      datasets: [{
+        label: 'Price of Bitcoins',
+        data: y,
+        borderColor: '#1a252f',
+      }]
+    }
+  });
+};
 
 /* * * * * *
-* Description: function that controls all clickable features of the web app. getHistoricalDataFromApi have separate arguments for each button clicked
+* Description: Contols how the chart looks through the data-days attribute on each button 
+* Inputs: currency which changes based on what button is clicked
+* Returns: different chart layout and active button based on which button is clicked
+* * * * * */
+const assignClicks = (currency) =>{
+  getHistoricalDataFromApi(chart, currency, 5);
+  $('#myChart, .group').show();
+  $('.daysButton').each(function(){
+    const data = $(this).data("days");
+    $(this).click(function(){
+    $('.btn').removeClass('active').addClass('inactive');
+    $(this).addClass('active').removeClass('inactive');
+    getHistoricalDataFromApi(chart, currency, data);
+    });
+  });
+};
+
+/* * * * * *
+* Description: function that controls all clickable features of the web app
 * Inputs: None
-* Returns: clickable divs that open charts for each currency
+* Returns: Calls to assignClicks to control which chart is shown based off of which div is clicked
 * * * * * */
 const watchSubmitHistorical = () =>{
 //5 Days in the past is the default chart
-let currency = 'USD';
+  let currency = 'USD';
   let defaultNum = 5;
   $('.dollar').click(function(){
     assignClicks('USD');
   });
-   
   $('.pound').click(function(){
     assignClicks('GBP');
-  });
-   
+  }); 
   $('.euro').click(function(){
     assignClicks('EUR');
   });
-
 };
-
-const assignClicks = (currency) => {
-  getHistoricalDataFromApi(chart, currency, 5);
-    $('#myChart, .group').show();
-$('.daysButton').each(function(){
-  const data = $(this).data("days");
-  $(this).click(function(){
-    $('.btn').removeClass('active').addClass('inactive');
-    $(this).addClass('active').removeClass('inactive');
-   // $('.btn').removeClass('inactive').addClass('active');
-    getHistoricalDataFromApi(chart, currency, data);
-  })
-})
-
-}
 
 /* * * * * *
 * Description: HTML layout for prices of USD, Pound, and Euro
@@ -149,10 +147,9 @@ const renderPriceResult = (result) =>{
       <p>${result.bpi.EUR.symbol}<span>${result.bpi.EUR.rate}</span</p>
     </div>
   </div>`
-    $('.js-result').html(results);
-    //Call to click function when HTML loads
-    watchSubmitHistorical();
-
+  $('.js-result').html(results);
+  //Call to click function when HTML loads
+  watchSubmitHistorical();
 };
 
 /* * * * * *
