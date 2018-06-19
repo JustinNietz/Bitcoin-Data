@@ -94,27 +94,40 @@ const chart = (result) =>{
 * Returns: different chart layout and active button based on which button is clicked
 * * * * * */
 const assignClicks = (currency) =>{
-  getHistoricalDataFromApi(chart, currency, 5);
-  $('#myChart, .group').show();
   $('.daysButton').each(function(){
     const data = $(this).data("days");
     $(this).click(function(){
-    $('.btn').removeClass('active').addClass('inactive');
-    $(this).addClass('active').removeClass('inactive');
+    $('.btn').removeClass('active');
+    $(this).addClass('active');
     getHistoricalDataFromApi(chart, currency, data);
     });
   });
 };
 
+const loadDefaultChart = () =>{
+  let currency = 'USD';
+  let defaultNum = 5;
+  getHistoricalDataFromApi(chart, currency, 5);
+  $('#myChart, .group').show();
+}
 /* * * * * *
 * Description: function that controls all clickable features of the web app
 * Inputs: None
 * Returns: Calls to assignClicks to control which chart is shown based off of which div is clicked
+*/
+
+/* * * * * *
+* Description: HTML layout for prices of USD, Pound, and Euro
+* Inputs: result argument to pull specific data from json
+* Returns: HTML for prices
 * * * * * */
-const watchSubmitHistorical = () =>{
-//5 Days in the past is the default chart
-  let currency = 'USD';
-  let defaultNum = 5;
+const renderPriceResult = (result) =>{
+  $('#USD-rate').html(`${result.bpi.USD.rate}`);
+    $('#GBP-rate').html(`${result.bpi.GBP.rate}`);
+      $('#EUR-rate').html(`${result.bpi.EUR.rate}`);
+};
+
+$(document).ready(() => {
   $('.dollar').click(function(){
     assignClicks('USD');
   });
@@ -124,33 +137,8 @@ const watchSubmitHistorical = () =>{
   $('.euro').click(function(){
     assignClicks('EUR');
   });
-};
-
-/* * * * * *
-* Description: HTML layout for prices of USD, Pound, and Euro
-* Inputs: result argument to pull specific data from json
-* Returns: HTML for prices
-* * * * * */
-const renderPriceResult = (result) =>{
-  const results = `
-  <div class="row">
-    <div class="col-4 clickable dollar">
-      <h3>${result.bpi.USD.code}</h3>
-      <p>${result.bpi.USD.symbol}<span>${result.bpi.USD.rate}</span</p>
-    </div>
-    <div class="col-4 clickable pound">
-      <h3>${result.bpi.GBP.code}</h3>
-      <p>${result.bpi.GBP.symbol}<span>${result.bpi.GBP.rate}</span</p>
-    </div>
-    <div class="col-4 clickable euro">
-      <h3>${result.bpi.EUR.code}</h3>
-      <p>${result.bpi.EUR.symbol}<span>${result.bpi.EUR.rate}</span</p>
-    </div>
-  </div>`
-  $('.js-result').html(results);
-  //Call to click function when HTML loads
-  watchSubmitHistorical();
-};
+  loadDefaultChart();
+});
 
 /* * * * * *
 * Description: Takes the data from the Api and returns it as html
