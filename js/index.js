@@ -83,34 +83,13 @@ for (let key in result.bpi) {
         datasets: [{
             label: 'Price of Bitcoins',
             data: y,
-            borderColor: 'Red',
-            backgroundColor: false
+            borderColor: '#1a252f',
         }]
     },
-
-    options: {
-    }
 });
 
 }
 
-const chartData = () =>{
-  const results = `
-  <div class="row">
-    <div class="col-12 group">
-      <button class="buttonHide btn btn-primary" type="button">Hide</button>
-      <button class="buttonOne  btn btn-primary" type="button">2 Days</button>
-      <button class="buttonFive  btn btn-primary" type="button">5 Days</button>
-      <button class="buttonFifteen  btn btn-primary" type="button">15 Days</button>
-      <button class="buttonThirty  btn btn-primary" type="button">30 Days</button>
-      <canvas id="myChart" class="myChartClass" width="400" height="250"></canvas>
-    </div>
-  </div>`
-
-  $('.js-chart-result').html(results);
-  
-
-}
 /* * * * * *
 * Description: function that controls all clickable features of the web app. getHistoricalDataFromApi have separate arguments for each button clicked
 * Inputs: None
@@ -118,66 +97,36 @@ const chartData = () =>{
 * * * * * */
 const watchSubmitHistorical = () =>{
 //5 Days in the past is the default chart
+let currency = 'USD';
   let defaultNum = 5;
   $('.dollar').click(function(){
-    getHistoricalDataFromApi(chart,'USD', defaultNum);
-      $('#myChart, .group').show();
-
-    $('.buttonOne').click(function(){
-      getHistoricalDataFromApi(chart, 'USD', 2);
-    })
-    $('.buttonFive').click(function(){
-      getHistoricalDataFromApi(chart, 'USD', defaultNum);
-    })
-    $('.buttonFifteen').click(function(){
-      getHistoricalDataFromApi(chart,'USD', 15);
-    })
-    $('.buttonThirty').click(function(){
-      getHistoricalDataFromApi(chart,'USD', 30);
-    })
+    assignClicks('USD');
   });
    
   $('.pound').click(function(){
-    getHistoricalDataFromApi(chart, 'GBP', defaultNum)
-    $('#myChart, .group').show();
-    
-    $('.buttonOne').click(function(){
-      getHistoricalDataFromApi(chart, 'USD', 2);
-    })
-    $('.buttonFive').click(function(){
-      getHistoricalDataFromApi(chart, 'GBP', defaultNum);
-    })
-    $('.buttonFifteen').click(function(){
-      getHistoricalDataFromApi(chart,'GBP', 15);
-    })
-    $('.buttonThirty').click(function(){
-      getHistoricalDataFromApi(chart,'GBP', 30);
-    })
+    assignClicks('GBP');
   });
    
   $('.euro').click(function(){
-    getHistoricalDataFromApi(chart, 'EUR', defaultNum)
-    $('#myChart, .group').show();
-    
-    $('.buttonOne').click(function(){
-      getHistoricalDataFromApi(chart, 'USD', 2);
-    })
-    $('.buttonFive').click(function(){
-      getHistoricalDataFromApi(chart, 'EUR', defaultNum);
-    })
-    $('.buttonFifteen').click(function(){
-      getHistoricalDataFromApi(chart,'EUR', 15);
-    })
-    $('.buttonThirty').click(function(){
-      getHistoricalDataFromApi(chart,'EUR', 30);
-    })
+    assignClicks('EUR');
   });
 
-  $('.buttonHide').click(function(){
-    $('#myChart, .group').hide();
-  })
-
 };
+
+const assignClicks = (currency) => {
+  getHistoricalDataFromApi(chart, currency, 5);
+    $('#myChart, .group').show();
+$('.daysButton').each(function(){
+  const data = $(this).data("days");
+  $(this).click(function(){
+    $('.btn').removeClass('active').addClass('inactive');
+    $(this).addClass('active').removeClass('inactive');
+   // $('.btn').removeClass('inactive').addClass('active');
+    getHistoricalDataFromApi(chart, currency, data);
+  })
+})
+
+}
 
 /* * * * * *
 * Description: HTML layout for prices of USD, Pound, and Euro
@@ -217,8 +166,9 @@ const watchSubmit = () =>{
 
 //initializes the watchSubmit function 
 watchSubmit();
+
 //calls watchSubmit every minute to update the current prices
-window.setInterval(watchSubmit, 6000);
+window.setInterval(watchSubmit, 60000);
 
 
 

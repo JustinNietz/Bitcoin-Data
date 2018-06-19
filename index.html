@@ -36,16 +36,15 @@
     <section role="region" class="portfolio">
       <div class="container">
         <h2 class="text-center text-uppercase text-secondary mb-0">Currencies</h2>
-        <p class="text-center">Click on a price for trends</p>
-        <hr class="mb-5">
+        <hr>
+        <p class="text-center priceHeader">Click on a price for trends</p> 
         <div class="js-result"></div>
         <div class="row">
           <div class="col-12 group">
-            <button class="buttonHide btn btn-primary" type="button">Hide</button>
-            <button class="buttonOne  btn btn-primary" type="button">2 Days</button>
-            <button class="buttonFive  btn btn-primary" type="button">5 Days</button>
-            <button class="buttonFifteen  btn btn-primary" type="button">15 Days</button>
-            <button class="buttonThirty  btn btn-primary" type="button">30 Days</button>
+            <button class="daysButton btn btn-primary" data-days="2" type="button">2 Days</button>
+            <button class="daysButton btn btn-primary active" data-days="5" type="button">5 Days</button>
+            <button class="daysButton  btn btn-primary" data-days="15" type="button">15 Days</button>
+            <button class="daysButton btn btn-primary" data-days="30" type="button">30 Days</button>
             <canvas id="myChart" class="myChartClass" width="400" height="250"></canvas>
           </div>
         </div>

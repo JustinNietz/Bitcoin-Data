@@ -216,17 +216,17 @@ a:focus, a:hover, a:active {
 .btn {
   border-width: 2px;
 }
-
+/* !important to override bootstrap */
 .bg-primary {
   background-color: #2C3E50 !important;
 }
 
 .bg-secondary {
-  background-color: #2C3E50 !important;
+  background-color: #2C3E50;
 }
 
 .text-primary {
-  color: #18BC9C !important;
+  color: #18BC9C;
 }
 
 .text-secondary {
@@ -260,12 +260,27 @@ a:focus, a:hover, a:active {
 
 .clickable {
   text-align: center;
+  cursor: pointer;
 }
 
 
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  background-color: #2C3E50;
+  border-color: #2C3E50;
+}
 @media (max-width: 600px) {
   .buttonThirty{
       margin-top: .2rem;
 
   }
   }
+
+.active {
+  background-color: #1a252f;
+   border-color: #1a252f;
+}
+
+.priceHeader{
+  font-size: 20px;
+}
