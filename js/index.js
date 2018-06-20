@@ -1,6 +1,7 @@
 'use strict';
+
 /* * * * * *
-* Description: Retrieves the endpoint for the current price of Bitcoin 
+* Description: Retrieves the endpoint for the current price of Bitcoin
 * Inputs: Requires an html layout to be passed as an argument
 * Returns: Data from the Api if there are no errors
 * * * * * */
@@ -52,7 +53,7 @@ const getHistoricalDataFromApi = (callback, type, numOfDays) =>{
     let promise = $.ajax(setHistorical(type, numOfDays));
     promise.then(
       function(responseBody) {
-        watchSubmitHistorical(responseBody);
+        chart(responseBody);
       },
       function (error) {
         console.error("Error with coindesk:", error);
@@ -71,7 +72,7 @@ const chart = (result) =>{
   const y = [];
   for (let key in result.bpi) {
     if (result.bpi.hasOwnProperty(key)) {
-      x.push(key); 
+      x.push(key);
       y.push(result.bpi[key]);
     }
   };
@@ -89,7 +90,18 @@ const chart = (result) =>{
 };
 
 /* * * * * *
-* Description: Contols how the chart looks through the data-days attribute on each button 
+* Description: Targets button clicks
+* Inputs: Currency, data, that 
+* Returns: Different active buttons based on which was clicked and the corresponding chart data.
+*/
+const assignDayButtonClick = (currency, data, that) => {
+  $('.btn').removeClass('active');
+  $(that).addClass('active');
+  getHistoricalDataFromApi(chart, currency, data);
+}
+
+/* * * * * *
+* Description: Contols how many days past the chart shows through the data-days attribute on each button
 * Inputs: currency which changes based on what button is clicked
 * Returns: different chart layout and active button based on which button is clicked
 * * * * * */
@@ -97,47 +109,51 @@ const assignClicks = (currency) =>{
   $('.daysButton').each(function(){
     const data = $(this).data("days");
     $(this).click(function(){
-    $('.btn').removeClass('active');
-    $(this).addClass('active');
-    getHistoricalDataFromApi(chart, currency, data);
+      assignDayButtonClick(currency, data, this);
     });
   });
 };
 
-const loadDefaultChart = () =>{
-  let currency = 'USD';
+/* * * * * *
+* Description: Loads the default chart when the page loads
+* Inputs: Currency
+* Returns: Default chart which is USD for the past 5 days
+*/
+const loadDefaultChart = (currency) =>{
   let defaultNum = 5;
-  getHistoricalDataFromApi(chart, currency, 5);
+  getHistoricalDataFromApi(chart, currency, defaultNum);
   $('#myChart, .group').show();
 }
-/* * * * * *
-* Description: function that controls all clickable features of the web app
-* Inputs: None
-* Returns: Calls to assignClicks to control which chart is shown based off of which div is clicked
-*/
 
 /* * * * * *
-* Description: HTML layout for prices of USD, Pound, and Euro
+* Description: layout for clickable divs of USD, Pound, and Euro
 * Inputs: result argument to pull specific data from json
-* Returns: HTML for prices
+* Returns: default chart and clicks for prices which load default of 5 days
 * * * * * */
 const renderPriceResult = (result) =>{
   $('#USD-rate').html(`${result.bpi.USD.rate}`);
-    $('#GBP-rate').html(`${result.bpi.GBP.rate}`);
-      $('#EUR-rate').html(`${result.bpi.EUR.rate}`);
+  $('#GBP-rate').html(`${result.bpi.GBP.rate}`);
+  $('#EUR-rate').html(`${result.bpi.EUR.rate}`);
 };
 
 $(document).ready(() => {
   $('.dollar').click(function(){
     assignClicks('USD');
+    loadDefaultChart('USD');
   });
+  
   $('.pound').click(function(){
     assignClicks('GBP');
-  }); 
+    loadDefaultChart('GBP');
+  });
+  
   $('.euro').click(function(){
     assignClicks('EUR');
+    loadDefaultChart('EUR');
   });
-  loadDefaultChart();
+
+  assignClicks('USD');
+  loadDefaultChart('USD');
 });
 
 /* * * * * *
@@ -149,20 +165,8 @@ const watchSubmit = () =>{
   getPriceFromApi(renderPriceResult);
 }
 
-//initializes the watchSubmit function 
+//initializes the watchSubmit function
 watchSubmit();
 
 //calls watchSubmit every minute to update the current prices
 window.setInterval(watchSubmit, 60000);
-
-
-
-
-
-
-
-
-
-
-
-    
