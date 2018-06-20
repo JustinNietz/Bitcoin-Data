@@ -81,7 +81,7 @@ const chart = (result) =>{
     data: {
       labels: x,
       datasets: [{
-        label: 'Price of Bitcoins',
+        label: 'Price of Bitcoin',
         data: y,
         borderColor: '#1a252f',
       }]
