@@ -2,8 +2,8 @@
 
 /* * * * * *
 * Description: Retrieves the endpoint for the current price of Bitcoin
-* Inputs: Requires an html layout to be passed as an argument
-* Returns: Data from the Api if there are no errors
+* Inputs: callback function
+* Returns: API from Coindesk with current prices
 * * * * * */
 const getPriceFromApi = (callback) => {
 // First endpoint for prices
@@ -28,8 +28,8 @@ const getPriceFromApi = (callback) => {
 
 /* * * * * *
 * Description: Retrieves the endpoint for the historical price of Bitcoin
-* Inputs: Requires a layout for the data, arguments to be passed in to change the currency type and number of days of historical data displayed
-* Returns: Data from the Api if there are no errors
+* Inputs: callback function, type, numOfDays
+* Returns: Historical data of Bitcoin through Coindesk
 * * * * * */
 const getHistoricalDataFromApi = (callback, type, numOfDays) =>{
   const COINDESK_ENDPOINT_HISTORICAL = "https://api.coindesk.com/v1/bpi/historical/close.json";
@@ -39,6 +39,7 @@ const getHistoricalDataFromApi = (callback, type, numOfDays) =>{
   const setHistorical = function(){
     return {
       url: COINDESK_ENDPOINT_HISTORICAL,
+      // information in data will be changed in other functions
       data: {
         currency: type,
         start: dateFormat,
@@ -62,8 +63,8 @@ const getHistoricalDataFromApi = (callback, type, numOfDays) =>{
 };
 
 /* * * * * *
-* Description: Creates a chart of the data for a certain number of days
-* Inputs: argument which pulls information needed out of the json data
+* Description: Creates a chart of the data pulled from getHistoricalDataFromApi
+* Inputs: result
 * Returns: A detailed chart with Price on the y axis and dates on the x axis
 * * * * * */
 const chart = (result) =>{
@@ -90,7 +91,7 @@ const chart = (result) =>{
 };
 
 /* * * * * *
-* Description: Targets button clicks
+* Description: Targets active bootstrap class on button prcies
 * Inputs: Currency, data, that 
 * Returns: Different active buttons based on which was clicked and the corresponding chart data.
 */
@@ -101,9 +102,9 @@ const assignDayButtonClick = (currency, data, that) => {
 }
 
 /* * * * * *
-* Description: Contols how many days past the chart shows through the data-days attribute on each button
-* Inputs: currency which changes based on what button is clicked
-* Returns: different chart layout and active button based on which button is clicked
+* Description: Controls data-days attribute on button clicks
+* Inputs: currency 
+* Returns: different chart layout based on which button is clicked using this
 * * * * * */
 const assignClicks = (currency) =>{
   $('.daysButton').each(function(){
@@ -123,6 +124,8 @@ const loadDefaultChart = (currency) =>{
   let defaultNum = 5;
   getHistoricalDataFromApi(chart, currency, defaultNum);
   $('#myChart, .group').show();
+  $('.defaultButton').addClass('active');
+
 }
 
 /* * * * * *
@@ -136,24 +139,32 @@ const renderPriceResult = (result) =>{
   $('#EUR-rate').html(`${result.bpi.EUR.rate}`);
 };
 
+/* * * * * *
+* Description: Loads what happens when each div is clicked
+* Inputs: None
+* Returns: AssignClicks and loadDefaultChart functions loaded on button click
+* * * * * */
 $(document).ready(() => {
   $('.dollar').click(function(){
     assignClicks('USD');
     loadDefaultChart('USD');
+    $('.btn').removeClass('active');
+    $('.defaultButton').addClass('active');
   });
   
   $('.pound').click(function(){
     assignClicks('GBP');
     loadDefaultChart('GBP');
+    $('.btn').removeClass('active');
+    $('.defaultButton').addClass('active');
   });
   
   $('.euro').click(function(){
     assignClicks('EUR');
     loadDefaultChart('EUR');
+    $('.btn').removeClass('active');
+    $('.defaultButton').addClass('active');
   });
-
-  assignClicks('USD');
-  loadDefaultChart('USD');
 });
 
 /* * * * * *
